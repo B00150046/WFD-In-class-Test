@@ -34,7 +34,7 @@ class Salesperson(models.Model):
         return self.Last_Name + ", " + self.First_Name
 
 class Sales_Invoice(models.Model):
-    Invoice_Number = models.CharField(max_length=50)
+    Invoice_Number = models.IntegerField(max_length=50)
     Date = models.DateField()
     Car_ID = models.ForeignKey(Car, on_delete=models.CASCADE)
     Customer_ID = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -44,7 +44,7 @@ class Sales_Invoice(models.Model):
         return self.Invoice_Number + " " + self.Date
     
 class Service_Ticket(models.Model):
-    Service_Ticket_Number = models.CharField(max_length=50)
+    Service_Ticket_Number = models.IntegerField(max_length=50)
     Car_ID = models.ForeignKey(Car, on_delete=models.CASCADE)
     Customer_ID = models.ForeignKey(Customer, on_delete=models.CASCADE)
     Date_Recieved = models.DateField()
@@ -57,6 +57,10 @@ class Mechanic(models.Model):
     
     def __str__(self):
         return self.Last_Name + ", " + self.First_Name
+    
+class Service(models.Model):
+    Service_Name = models.CharField(max_length=50)
+    Hourly_Rate = models.DecimalField(max_digits=10, decimal_places=2)
     
 class Service_Mechanic(models.Model):
     Service_Ticket_ID = models.ForeignKey(Service_Ticket, on_delete=models.CASCADE)
@@ -71,7 +75,7 @@ class Service_Mechanic(models.Model):
     
     
 class Parts(models.Model):
-    Part_Number = models.CharField(max_length=50)
+    Part_Number = models.IntegerField(max_length=12)
     Description = models.CharField(max_length=50)
     Purchase_Price = models.DecimalField(max_digits=10, decimal_places=2)
     Retail_Price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -80,15 +84,10 @@ class Parts(models.Model):
         return self.Part_Number + " " + self.Description
     
 class Parts_Used(models.Model):
-    Part_ID = models.ForeignKey(Parts, on_delete=models.CASCADE)
+    Part_Number = models.ForeignKey(Parts, on_delete=models.CASCADE)
     Service_Ticket_ID = models.ForeignKey(Service_Ticket, on_delete=models.CASCADE)
     Number_Used = models.IntegerField()
     Price = models.DecimalField(max_digits=10, decimal_places=2)
     
-    
-    
-    
-class Service(models.Model):
-    Service_Name = models.CharField(max_length=50)
-    Hourly_Rate = models.DecimalField(max_digits=10, decimal_places=2)
+
     
